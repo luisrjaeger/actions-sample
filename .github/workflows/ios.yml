@@ -1,0 +1,29 @@
+name: Build Sample
+on:
+  push:
+    branches:
+    - master
+    - develop
+
+jobs:
+
+  build:
+    runs-on: macos-latest
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - name: Build
+      run: |
+       pod install
+       xcodebuild build -workspace ActionSample.xcworkspace -scheme ActionSample
+       xcodebuild archive -workspace ActionSample.xcworkspace -scheme ActionSample -archivePath ~/Downloads/sample.xcarchive
+       xcodebuild -exportArchive -archivePath ~/Downloads/sample.xcarchive -exportPath ~/Downloads -exportOptionsPlist ActionSample/export.plist
+
+    - name: Upload ipa to App Center
+      uses: wzieba/AppCenter-Github-Action@v1.1.1
+      with:
+        appName: luisrjaeger/Action Sample
+        token: ${{ secrets.APPCENTER_TOKEN }}
+        group: testers
+        file: ActionSample.ipa
