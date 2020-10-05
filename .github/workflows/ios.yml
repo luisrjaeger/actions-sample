@@ -17,8 +17,8 @@ jobs:
       run: |
        pod install
        xcodebuild build -workspace ActionSample.xcworkspace -scheme ActionSample
-       xcodebuild archive -workspace ActionSample.xcworkspace -scheme ActionSample -archivePath ~/Downloads/sample.xcarchive
-       xcodebuild -exportArchive -archivePath ~/Downloads/sample.xcarchive -exportPath ~/Downloads -exportOptionsPlist ActionSample/export.plist
+       xcodebuild archive -workspace ActionSample.xcworkspace -scheme ActionSample -archivePath sample.xcarchive
+       xcodebuild -exportArchive -archivePath sample.xcarchive -exportPath . -exportOptionsPlist ExportOptions.plist
 
     - name: Upload ipa to App Center
       uses: wzieba/AppCenter-Github-Action@v1.1.1
