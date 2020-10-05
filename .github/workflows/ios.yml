@@ -19,7 +19,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Keychain
-      run |
+      run: |
         security create-keychain -p "" "$KEYCHAIN"
         security list-keychains -s "$KEYCHAIN"
         security default-keychain -s "$KEYCHAIN"
