@@ -49,12 +49,29 @@ jobs:
         xcodebuild archive -workspace ActionSample.xcworkspace -scheme ActionSample -archivePath sample.xcarchive
         xcodebuild -exportArchive -archivePath sample.xcarchive -exportPath . -exportOptionsPlist ./ExportOptions.plist
 
+    - name: Check files
+      run: ls -R
+
+    - name: Save ipa
+    - uses: actions/upload-artifact@v2
+      with:
+        name: ios-artifact
+        path: ActionSample.ipa
+
   upload:
     runs-on: ubuntu-latest
     needs: build
     env:
       APPCENTER_TOKEN: ${{ secrets.APPCENTER_TOKEN }}
     steps:
+
+    - name: Get ipa
+    - uses: actions/download-artifact@v2
+      with:
+        name: ios-artifact
+
+    - name: Check files
+      run: ls -R
 
     - name: Upload ipa to App Center
       uses: wzieba/AppCenter-Github-Action@v1.3.1
