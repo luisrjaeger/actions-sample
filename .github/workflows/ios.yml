@@ -39,11 +39,12 @@ jobs:
           UUID=`/usr/libexec/PlistBuddy -c 'Print :UUID' /dev/stdin <<< $(security cms -D -i ./$PROVISION)`
           cp "./$PROVISION" "$HOME/Library/MobileDevice/Provisioning Profiles/$UUID.mobileprovision"
         done
+        ls $HOME/Library/MobileDevice/Provisioning Profiles
 
     - name: Build
       run: |
         pod install
-        xcodebuild build -workspace ActionSample.xcworkspace -scheme ActionSample "OTHER_CODE_SIGN_FLAGS=--keychain '$KEYCHAIN'"
+        xcodebuild build -workspace ActionSample.xcworkspace -configuration Automation -scheme ActionSample "OTHER_CODE_SIGN_FLAGS=--keychain '$KEYCHAIN'"
         xcodebuild archive -workspace ActionSample.xcworkspace -scheme ActionSample -archivePath sample.xcarchive
         xcodebuild -exportArchive -archivePath sample.xcarchive -exportPath . -exportOptionsPlist ./ExportOptions.plist
 
