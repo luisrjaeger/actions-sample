@@ -43,9 +43,9 @@ jobs:
     - name: Build
       run: |
         pod install
-        xcodebuild build -workspace ActionSample.xcworkspace -scheme ActionSample
+        xcodebuild build -workspace ActionSample.xcworkspace -scheme ActionSample "OTHER_CODE_SIGN_FLAGS=--keychain '$KEYCHAIN'"
         xcodebuild archive -workspace ActionSample.xcworkspace -scheme ActionSample -archivePath sample.xcarchive
-        xcodebuild -exportArchive -archivePath sample.xcarchive -exportPath . -exportOptionsPlist ExportOptions.plist
+        xcodebuild -exportArchive -archivePath sample.xcarchive -exportPath . -exportOptionsPlist ./ExportOptions.plist
 
     - name: Upload ipa to App Center
       uses: wzieba/AppCenter-Github-Action@v1.1.1
