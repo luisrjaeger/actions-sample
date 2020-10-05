@@ -10,7 +10,6 @@ jobs:
   build:
     runs-on: macos-latest
     env:
-      APPCENTER_TOKEN: ${{ secrets.APPCENTER_TOKEN }}
       CERT_KEY: ${{ secrets.CERT_KEY }}
       DECRYPT_KEY: ${{ secrets.DECRYPT_KEY }}
       KEYCHAIN: ${{ 'some.keychain' }}
@@ -49,6 +48,12 @@ jobs:
         xcodebuild build -workspace ActionSample.xcworkspace -configuration Automation -scheme ActionSample "OTHER_CODE_SIGN_FLAGS=--keychain '$KEYCHAIN'"
         xcodebuild archive -workspace ActionSample.xcworkspace -scheme ActionSample -archivePath sample.xcarchive
         xcodebuild -exportArchive -archivePath sample.xcarchive -exportPath . -exportOptionsPlist ./ExportOptions.plist
+
+  upload:
+    runs-on: ubuntu-latest
+    env:
+      APPCENTER_TOKEN: ${{ secrets.APPCENTER_TOKEN }}
+    steps:
 
     - name: Upload ipa to App Center
       uses: wzieba/AppCenter-Github-Action@v1.1.1
