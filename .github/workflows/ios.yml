@@ -53,7 +53,7 @@ jobs:
       run: ls -R
 
     - name: Save ipa
-    - uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v2
       with:
         name: ios-artifact
         path: ActionSample.ipa
@@ -66,7 +66,7 @@ jobs:
     steps:
 
     - name: Get ipa
-    - uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v2
       with:
         name: ios-artifact
 
